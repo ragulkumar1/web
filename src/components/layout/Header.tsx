@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useMobileMenu from '../../hooks/useMobileMenu';
 
 const Header: React.FC = () => {
   const { isMenuOpen, toggleMenu } = useMobileMenu();
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const toggleDropdown = (menu: string) => {
+    setActiveDropdown(activeDropdown === menu ? null : menu);
+  };
 
   return (
     <header className="site-header">
@@ -41,9 +46,33 @@ const Header: React.FC = () => {
               <nav className="tx-main-navigation-area">
                 <ul>
                   <li><Link to="/">Home</Link></li>
-                  <li><Link to="/about">About</Link></li>
-                  <li><Link to="/services">Services</Link></li>
-                  <li><Link to="/contact">Contact</Link></li>
+                  <li className="has-dropdown">
+                    <Link to="/about" onClick={() => toggleDropdown('about')}>About</Link>
+                    <ul className={`dropdown-menu ${activeDropdown === 'about' ? 'active' : ''}`}>
+                      <li><Link to="/about/history">History</Link></li>
+                      <li><Link to="/about/mission-vision">Mission & Vision</Link></li>
+                      <li><Link to="/about/team">Team</Link></li>
+                      <li><Link to="/about/facilities">Facilities</Link></li>
+                    </ul>
+                  </li>
+                  <li className="has-dropdown">
+                    <Link to="/services" onClick={() => toggleDropdown('services')}>Services</Link>
+                    <ul className={`dropdown-menu ${activeDropdown === 'services' ? 'active' : ''}`}>
+                      <li><Link to="/services/academic">Academic Programs</Link></li>
+                      <li><Link to="/services/support">Student Support</Link></li>
+                      <li><Link to="/services/activities">Extracurricular Activities</Link></li>
+                      <li><Link to="/services/online">Online Learning</Link></li>
+                    </ul>
+                  </li>
+                  <li className="has-dropdown">
+                    <Link to="/contact" onClick={() => toggleDropdown('contact')}>Contact</Link>
+                    <ul className={`dropdown-menu ${activeDropdown === 'contact' ? 'active' : ''}`}>
+                      <li><Link to="/contact/form">Contact Form</Link></li>
+                      <li><Link to="/contact/location">Location</Link></li>
+                      <li><Link to="/contact/faq">FAQ</Link></li>
+                      <li><Link to="/contact/support">Support</Link></li>
+                    </ul>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -63,9 +92,33 @@ const Header: React.FC = () => {
         <nav>
           <ul>
             <li><Link to="/" onClick={toggleMenu}>Home</Link></li>
-            <li><Link to="/about" onClick={toggleMenu}>About</Link></li>
-            <li><Link to="/services" onClick={toggleMenu}>Services</Link></li>
-            <li><Link to="/contact" onClick={toggleMenu}>Contact</Link></li>
+            <li className="has-dropdown">
+              <Link to="/about" onClick={() => toggleDropdown('about-mobile')}>About</Link>
+              <ul className={`dropdown-menu ${activeDropdown === 'about-mobile' ? 'active' : ''}`}>
+                <li><Link to="/about/history" onClick={toggleMenu}>History</Link></li>
+                <li><Link to="/about/mission-vision" onClick={toggleMenu}>Mission & Vision</Link></li>
+                <li><Link to="/about/team" onClick={toggleMenu}>Team</Link></li>
+                <li><Link to="/about/facilities" onClick={toggleMenu}>Facilities</Link></li>
+              </ul>
+            </li>
+            <li className="has-dropdown">
+              <Link to="/services" onClick={() => toggleDropdown('services-mobile')}>Services</Link>
+              <ul className={`dropdown-menu ${activeDropdown === 'services-mobile' ? 'active' : ''}`}>
+                <li><Link to="/services/academic" onClick={toggleMenu}>Academic Programs</Link></li>
+                <li><Link to="/services/support" onClick={toggleMenu}>Student Support</Link></li>
+                <li><Link to="/services/activities" onClick={toggleMenu}>Extracurricular Activities</Link></li>
+                <li><Link to="/services/online" onClick={toggleMenu}>Online Learning</Link></li>
+              </ul>
+            </li>
+            <li className="has-dropdown">
+              <Link to="/contact" onClick={() => toggleDropdown('contact-mobile')}>Contact</Link>
+              <ul className={`dropdown-menu ${activeDropdown === 'contact-mobile' ? 'active' : ''}`}>
+                <li><Link to="/contact/form" onClick={toggleMenu}>Contact Form</Link></li>
+                <li><Link to="/contact/location" onClick={toggleMenu}>Location</Link></li>
+                <li><Link to="/contact/faq" onClick={toggleMenu}>FAQ</Link></li>
+                <li><Link to="/contact/support" onClick={toggleMenu}>Support</Link></li>
+              </ul>
+            </li>
           </ul>
         </nav>
       </div>
